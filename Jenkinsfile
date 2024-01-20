@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials("your-docker-credentials")
-        DOCKER_REGISTRY = "https://hub.docker.com/repository/docker/hank07"
-        DOCKER_IMAGE_NAME = "MyFirstImage"
+        DOCKERHUB_CREDENTIALS = credentials("dockerhub-creds")
+        /*DOCKER_REGISTRY = "https://hub.docker.com/repository/docker/hank07"
+        DOCKER_IMAGE_NAME = "MyFirstImage" */
     }
 
     stages {
@@ -28,33 +28,28 @@ pipeline {
                 echo "DOCKERHUB_CREDENTIALS: ${DOCKERHUB_CREDENTIALS}"
             }
         }
-        /*
+
         stage('Docker Login') {
             steps {
                 echo 'Logging in to Docker Hub'
-                sh "echo \${DOCKERHUB_CREDENTIALS} | docker login -u \${DOCKERHUB_CREDENTIALS_USR} --password-stdin docker.io"
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                
                 echo 'Login Successful'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    dockerImage = docker.build("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
-                }
+                sh 'docker build -t https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", 'your-docker-credentials') {
-                        dockerImage.push()
-                    }
+                sh 'docker push https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER
                 }
             }
         }
-        */
     }
 
     post {

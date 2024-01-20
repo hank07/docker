@@ -15,8 +15,15 @@ pipeline {
             }
         }
         */
-
-         stage('Echo Credentials') {
+        stage('List Credentials') {
+            steps {
+                script {
+                    def credentialsList = credentials('') // Empty ID means list all credentials
+                    echo "Available Credentials:\n${credentialsList.join('\n')}"
+                }
+            }
+        }
+        stage('Echo Credentials') {
             steps {
                 echo "DOCKERHUB_CREDENTIALS: ${DOCKERHUB_CREDENTIALS}"
             }

@@ -33,21 +33,19 @@ pipeline {
             steps {
                 echo 'Logging in to Docker Hub'
                 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                
                 echo 'Login Successful'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER'
+                sh 'docker build -t hank07/MyFirstImage:$BUILD_NUMBER .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER'
-                }
+                sh 'docker push hank07/MyFirstImage:$BUILD_NUMBER'
             }
         }
     }

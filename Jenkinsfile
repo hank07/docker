@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t hank07/MyFirstImage:$BUILD_NUMBER'
+                sh 'docker build -t hank07/MyFirstImage:latest'
             }
         } 
 		
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push hank07/MyFirstImage:$BUILD_NUMBER
+                sh 'docker push hank07/MyFirstImage:latest'
                 }
             }
         }

@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        DOCKER_REGISTRY = 'https://hub.docker.com/repository/docker/hank07'
-        DOCKER_IMAGE_NAME = 'MyFirstImage'
+        DOCKERHUB_CREDENTIALS = credentials("dockerhub-creds")
+        DOCKER_REGISTRY = "https://hub.docker.com/repository/docker/hank07"
+        DOCKER_IMAGE_NAME = "MyFirstImage"
     }
 
     stages {

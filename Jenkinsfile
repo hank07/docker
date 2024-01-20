@@ -3,6 +3,8 @@ pipeline {
 
    environment { // getting stored credentials
        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+       DOCKER_REGISTRY = 'https://hub.docker.com/repository/docker/hank07'
+       DOCKER_IMAGE_NAME = 'MyFirstImage'
    }
 
    /*stages { // to clone repo. Enable this section if you are using inline jenkins script
@@ -18,7 +20,7 @@ pipeline {
            steps {
                echo 'Logon in to docker hub'
                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
-               echo 'Login Successfull'
+               echo 'Login Successful'
            }
        }
 
@@ -27,7 +29,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("your-docker-registry/your-image-name:${env.BUILD_NUMBER}")
+                    dockerImage = docker.build("${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
                 }
             }
         }
@@ -35,7 +37,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://your-docker-registry', 'your-docker-credentials') {
+                    docker.withRegistry('${DOCKER_REGISTRY}', 'your-docker-credentials') {
                         dockerImage.push()
                     }
                 }

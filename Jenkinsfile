@@ -16,6 +16,12 @@ pipeline {
         }
         */
 
+         stage('Echo Credentials') {
+            steps {
+                echo "DOCKERHUB_CREDENTIALS: ${DOCKERHUB_CREDENTIALS}"
+            }
+        }
+
         stage('Docker Login') {
             steps {
                 echo 'Logging in to Docker Hub'

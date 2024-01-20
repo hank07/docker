@@ -46,7 +46,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER
+                sh 'docker push https://hub.docker.com/repositories/hank07/MyFirstImage:$BUILD_NUMBER'
                 }
             }
         }

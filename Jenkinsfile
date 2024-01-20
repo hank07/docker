@@ -8,44 +8,40 @@ pipeline {
     }
 
     stages {
-        /* Uncomment the following block if you need to clone a Git repository
         stage('SCM Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/ashish/testweb.git'
+                git branch: 'main', url: 'https://github.com/hank07/docker.git'
             }
         }
-        */
-        stage('List Credentials') {
-            steps {
-                script {
-                    def credentialsList = credentials('') // Empty ID means list all credentials
-                    echo "Available Credentials:\n${credentialsList.join('\n')}"
-                }
-            }
-        }
+
         stage('Echo Credentials') {
             steps {
                 echo "DOCKERHUB_CREDENTIALS: ${DOCKERHUB_CREDENTIALS}"
             }
         }
-
-        stage('Docker Login') {
-            steps {
-                echo 'Logging in to Docker Hub'
-                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                echo 'Login Successful'
-            }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t hank07/MyFirstImage:$BUILD_NUMBER .'
             }
+        } 
+		
+        stage('Docker Login') {
+            steps {
+                echo 'Logging in to Docker Hub'
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                
+                echo 'Login Successful'
+            }
         }
+
+        
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push hank07/MyFirstImage:$BUILD_NUMBER'
+                sh 'docker push hank07/MyFirstImage:$BUILD_NUMBER
+                }
             }
         }
     }
@@ -55,4 +51,3 @@ pipeline {
             echo 'Docker image built and pushed successfully!'
         }
     }
-}
